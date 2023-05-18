@@ -299,8 +299,29 @@ TPersonasLDE aTPersonasLDE(TPersonasABB personasABB)
 /////////////  NUEVAS FUNCIONES  //////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-nat amplitudTPersonasABB(TPersonasABB personasABB) {
-    return 0;
+int contarNodosEnNivel(TPersonasABB nodo, int nivel){
+    if (nodo == NULL){
+        return 0;
+    }
+    if (nivel == 1){
+        return 1;
+    }
+    return contarNodosEnNivel(nodo->izq, nivel - 1) + contarNodosEnNivel(nodo->der, nivel - 1);
+}
+
+nat amplitudTPersonasABB(TPersonasABB t){
+    int amplitud = 0;
+    int nivel = 1;
+    int nodosEnNivel = 1;
+    while (nodosEnNivel != 0){
+        nodosEnNivel = contarNodosEnNivel(t, nivel);
+        if (nodosEnNivel > amplitud)
+        {
+            amplitud = nodosEnNivel;
+        }
+        nivel++;
+    }
+    return amplitud;
 }
 
 TPilaPersona serializarTPersonasABB(TPersonasABB personasABB) {
