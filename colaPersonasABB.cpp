@@ -9,8 +9,8 @@ struct nodo_colaPersonasABB{
 typedef struct nodo_colaPersonasABB *TNodoCola;
 
 struct rep_colaPersonasABB{
-  TColaPersonasABB inicio;
-  TColaPersonasABB final;
+  TNodoCola inicio;
+  TNodoCola final;
   nat cantPersonas;
 };
 
@@ -42,18 +42,31 @@ void liberarTColaPersonasABB(TColaPersonasABB &c) {
 }
 
 nat cantidadEnTColaPersonasABB(TColaPersonasABB c) { 
-  
-
+  return c->cantPersonas;
 }
 
-void encolarEnTColaPersonasABB(TPersonasABB t, TColaPersonasABB &c) {
-
+void encolarEnTColaPersonasABB(TPersonasABB t, TColaPersonasABB &c){
+  TNodoCola aEncolar = new nodo_colaPersonasABB;
+  aEncolar->persona = t;
+  aEncolar->sig = NULL;
+  if (c->inicio != NULL){
+    c->final->sig = aEncolar;
+    c->final = aEncolar;
+  } else{
+    c->inicio = aEncolar;
+    c->final = aEncolar;
+  }
+  c->cantPersonas++
 }
 
-TPersonasABB frenteDeTColaPersonasABB(TColaPersonasABB c) { 
-  return NULL;
+TPersonasABB frenteDeTColaPersonasABB(TColaPersonasABB c){
+  return c->inicio->persona;
 }
 
 void desencolarDeTColaPersonasABB(TColaPersonasABB &c) {
-
+  TNodoCola aux = c->inicio;
+  c->inicio = aux->sig;
+  liberarTPersonasABB(aux->persona)
+  delete aux;
+  c->cantPersonas--;
 }
