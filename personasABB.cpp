@@ -1,4 +1,5 @@
 #include "../include/personasABB.h"
+#include "../include/colaPersonasABB.h"
 
 ///////////////////////////////////
 ////// PEGAR CÓDIGO TAREA 2 //////
@@ -299,37 +300,61 @@ TPersonasLDE aTPersonasLDE(TPersonasABB personasABB)
 /////////////  NUEVAS FUNCIONES  //////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
-int contarNodosEnNivel(TPersonasABB nodo, int nivel){
-    if (nodo == NULL){
-        return 0;
-    }
-    if (nivel == 1){
-        return 1;
-    }
-    return contarNodosEnNivel(nodo->izq, nivel - 1) + contarNodosEnNivel(nodo->der, nivel - 1);
-}
-
 nat amplitudTPersonasABB(TPersonasABB t){
-    int amplitud = 0;
-    int nivel = 1;
-    int nodosEnNivel = 1;
-    while (nodosEnNivel != 0){
-        nodosEnNivel = contarNodosEnNivel(t, nivel);
-        if (nodosEnNivel > amplitud)
-        {
-            amplitud = nodosEnNivel;
+    if (t != NULL){
+        
+        TColaPersonasABB cola = crearColaABB();
+        encolarABB(cola, t);
+        nat cantEnCola = cantidadEnTColaPersonasABB(cola);
+        nat amplitud = cantEnCola;
+        while (cantEnCola > 0){
+            TPersonasABB aux = frenteDeTColaPersonasABB(cola);
+            desencolarDeTColaPersonasABB(cola);
+            if (aux->izq != NULL){
+                encolarEnTColaPersonasABB(cola, aux->izq);
+            }
+            if (aux->der != NULL){
+                encolarEnTColaPersonasABB(cola, aux->der);
+            }
+            cantEnCola--;
+            if (cantEnCola == 0){
+                cantEnCola = cantidadEnTColaPersonasABB(cola);
+                if (cantEnCola > amplitud){
+                    amplitud = cantEnCola;
+                }
+            }
         }
-        nivel++;
+        liberarTColaPersonasABB(cola);
+        return amplitud;
     }
-    return amplitud;
 }
 
-TPilaPersona serializarTPersonasABB(TPersonasABB personasABB) {
-    return NULL;
+TPilaPersona serializarTPersonasABB(TPersonasABB &personasABB) {
+    TPilaPersona pilaPersonas = crearTPilaPersona();
+    if (personasABB != NULL) {
+        TPilaPersona pilaIzq = serializarTPersonasABB(personasABB->izq);
+        TPilaPersona pilaDer = serializarTPersonasABB(personasABB->der);
+        if (personasABB->persona != NULL){
+            apilarTPilaPersona(pilaPersonas, copiarTPersona(personasABB->persona));
+        }
+    }  
+    liberarTPersonasABB(personasABB);
+    return pilaPersonas;
 }
 
 TPersonasABB deserializarTPersonasABB(TPilaPersona &pilaPersonas) {
-    return NULL;
+    TPersonasABB personasABB = crearTPersonasABB();
+    if (pilaPersonas != NULL) {
+        if (pilaPersonas->persona != NULL){
+            personasABB->persona = copiarTPersona(cimaTPilaPersona(pilaPersonas));
+        }
+        desapilarTPilaPersona(pilaPersonas);
+        personasABB->izq = deserializarTPersonasABB(pilaPersonas);
+        personasABB->der = deserializarTPersonasABB(pilaPersonas);
+        
+    }
+    liberarTPilaPersona(pilaPersonas);
+    return personasABB;
 }
 
 ///////////////////////////////////////////////////////////////////////////
