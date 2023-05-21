@@ -337,8 +337,8 @@ TPilaPersona serializarTPersonasABB(TPersonasABB &personasABB) {
         if (personasABB->persona != NULL){
             apilarTPilaPersona(pilaPersonas, copiarTPersona(personasABB->persona));
         }
+        liberarTPersonasABB(personasABB);
     }  
-    liberarTPersonasABB(personasABB);
     return pilaPersonas;
 }
 
