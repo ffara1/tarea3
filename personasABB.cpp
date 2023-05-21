@@ -1,4 +1,4 @@
-#include "../include/personasABB.h"
+lo#include "../include/personasABB.h"
 #include "../include/colaPersonasABB.h"
 
 ///////////////////////////////////
@@ -351,9 +351,8 @@ TPersonasABB deserializarTPersonasABB(TPilaPersona &pilaPersonas) {
         desapilarTPilaPersona(pilaPersonas);
         personasABB->izq = deserializarTPersonasABB(pilaPersonas);
         personasABB->der = deserializarTPersonasABB(pilaPersonas);
-        
+        liberarTPilaPersona(pilaPersonas);
     }
-    liberarTPilaPersona(pilaPersonas);
     return personasABB;
 }
 
