@@ -8,7 +8,7 @@ struct rep_pilaPersona{
 
 TPilaPersona crearTPilaPersona(){
   TPilaPersona pila = new rep_pilaPersona;
-  pila->personas = crearTPersonasLDE();
+  pila->personas = NULL;
   pila->tope = 0;
   return pila;
 }
