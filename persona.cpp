@@ -32,8 +32,10 @@ void liberarTPersona(TPersona &persona)
 // Imprime a la persona utilizando printf e imprimeAgendaLS
 void imprimirTPersona(TPersona persona)
 {
-    printf("Persona %d: %s, %d años\n", persona->id, persona->nombre, persona->edad);
-    imprimirAgendaLS(persona->agenda);
+    if (persona != NULL){
+        printf("Persona %d: %s, %d años\n", persona->id, persona->nombre, persona->edad);
+        imprimirAgendaLS(persona->agenda);
+    }
 }
 
 nat idTPersona(TPersona persona)

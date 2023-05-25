@@ -14,13 +14,11 @@ TPilaPersona crearTPilaPersona(){
 }
 
 void liberarTPilaPersona(TPilaPersona &p){
-  int i = 0;
-  while (i <= p->tope)
-  {
-    liberarTPersonasLDE(p->personas);
-    i++;
-  }
-  delete p;
+    if (p->personas != NULL){
+      liberarTPersonasLDE(p->personas);
+    }
+    delete p;
+    p = NULL;
 }
 
 nat cantidadEnTPilaPersona(TPilaPersona p){
@@ -30,14 +28,19 @@ nat cantidadEnTPilaPersona(TPilaPersona p){
 void apilarEnTPilaPersona(TPilaPersona &p, TPersona persona){
   TPersona nuevo = copiarTPersona(persona);
   p->tope++;
-  insertarTPersonasLDE(p->personas, nuevo, p->tope);
+  if (p->personas == NULL){
+    p->personas = crearTPersonasLDE();
+  }
+  insertarFinalDeTPersonasLDE(p->personas, nuevo);
 }
 
 TPersona cimaDeTPilaPersona(TPilaPersona p){
-  return obtenerInicioDeTPersonasLDE(p->personas);
+  return obtenerFinalDeTPersonasLDE(p->personas);
 }
 
 void desapilarDeTPilaPersona(TPilaPersona &p){
-  eliminarFinalTPersonasLDE(p->personas);
-  p->tope--;
+  if (p->personas != NULL){
+    eliminarFinalTPersonasLDE(p->personas);
+    p->tope--;
+  } 
 }

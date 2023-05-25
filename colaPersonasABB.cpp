@@ -30,15 +30,18 @@ TColaPersonasABB crearTColaPersonasABB() {
 }
 
 void liberarTColaPersonasABB(TColaPersonasABB &c) {
-  TNodoCola aux = c->inicio;
-  while (aux != NULL){
-    liberarTPersonasABB(aux->persona);
-    TNodoCola aBorrar = aux;
-    aux = aux->sig;
-    delete aBorrar;
+  if (c != NULL){  
+    TNodoCola aux = c->inicio;
+    while (aux != NULL){
+      TNodoCola aBorrar = aux;
+      aux = aux->sig;
+      delete aBorrar;
+      aBorrar = NULL;
+      c->cantPersonas--;
+    }
+    delete c;
+    c = NULL;
   }
-  delete c;
-  c = NULL;
 }
 
 nat cantidadEnTColaPersonasABB(TColaPersonasABB c) { 
@@ -46,9 +49,7 @@ nat cantidadEnTColaPersonasABB(TColaPersonasABB c) {
 }
 
 void encolarEnTColaPersonasABB(TPersonasABB t, TColaPersonasABB &c){
-  TNodoCola aEncolar = new nodo_colaPersonasABB;
-  aEncolar->persona = t;
-  aEncolar->sig = NULL;
+  TNodoCola aEncolar = crearNodoCola(t, NULL);
   if (c->inicio != NULL){
     c->final->sig = aEncolar;
     c->final = aEncolar;
@@ -56,7 +57,7 @@ void encolarEnTColaPersonasABB(TPersonasABB t, TColaPersonasABB &c){
     c->inicio = aEncolar;
     c->final = aEncolar;
   }
-  c->cantPersonas++
+  c->cantPersonas++;
 }
 
 TPersonasABB frenteDeTColaPersonasABB(TColaPersonasABB c){
@@ -66,7 +67,7 @@ TPersonasABB frenteDeTColaPersonasABB(TColaPersonasABB c){
 void desencolarDeTColaPersonasABB(TColaPersonasABB &c) {
   TNodoCola aux = c->inicio;
   c->inicio = aux->sig;
-  liberarTPersonasABB(aux->persona)
   delete aux;
+  aux = NULL;
   c->cantPersonas--;
 }

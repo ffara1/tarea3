@@ -71,7 +71,7 @@ void insertarTPersonasLDE(TPersonasLDE &personas, TPersona persona, nat pos)
 
 void liberarTLista(TLista &lista)
 {
-    if (lista != NULL)
+    if (lista != NULL && lista->persona != NULL)
     {
         liberarTPersona(lista->persona);
         delete lista;
@@ -216,26 +216,45 @@ TPersonasLDE concatenarTPersonasLDE(TPersonasLDE personas1, TPersonasLDE persona
 
 void insertarInicioDeTPersonasLDE(TPersonasLDE &personas, TPersona persona)
 {
-    TLista nuevo = crearTLista(NULL, persona, personas->inicio);
-    personas->inicio->ant = nuevo;
-    personas->inicio = nuevo;
+    if (personas->inicio != NULL){
+        TLista nuevo = crearTLista(NULL, persona, personas->inicio);
+        personas->inicio->ant = nuevo;
+        personas->inicio = nuevo;
+    } else {
+        personas->inicio = crearTLista(NULL, persona, NULL);
+        personas->final = personas->inicio;
+    }
+    personas->cantPersonas++;
 }
 
 void insertarFinalDeTPersonasLDE(TPersonasLDE &personas, TPersona persona)
 {
-    TLista nuevo = crearTLista(personas->final, persona, NULL);
-    personas->final->sig = nuevo;
-    personas->final = nuevo;
+    if (personas->final == NULL){
+        insertarInicioDeTPersonasLDE(personas, persona);
+    } else {
+        TLista nuevo = crearTLista(personas->final, persona, NULL);
+        personas->final->sig = nuevo;
+        personas->final = nuevo;
+        personas->cantPersonas++;
+    }
 }
 
 TPersona obtenerInicioDeTPersonasLDE(TPersonasLDE personas)
 {
-    return personas->inicio->persona;
+    if (personas->inicio != NULL){
+        return personas->inicio->persona;
+    } else {
+        return NULL;
+    }
 }
 
 TPersona obtenerFinalDeTPersonasLDE(TPersonasLDE personas)
 {
-    return personas->final->persona;
+    if (personas->final != NULL){
+        return personas->final->persona;
+    } else {
+        return NULL;
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////
