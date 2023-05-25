@@ -10,8 +10,15 @@ TPilaPersona menoresQueElResto(TPersonasLDE lista) {
         apilarEnTPilaPersona(pila, p);
         eliminarInicioTPersonasLDE(lista);
     }
+    return pila;
 }
 
 bool sumaPares(nat k, TConjuntoIds c){
-    return false;
+    nat i = 1;
+    nat j = k - 1;
+    while (i < j && (!perteneceTConjuntoIds(i, c) || !perteneceTConjuntoIds(j, c))){
+        i++;
+        j--;
+    }
+    return (i < j);
 }

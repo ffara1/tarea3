@@ -355,8 +355,7 @@ TPilaPersona serializarTPersonasABB(TPersonasABB t){
         }
     }    
     TPilaPersona resultado = crearTPilaPersona();
-    while (cantidadEnTPilaPersona(pilaPersonas) > 0)
-    {
+    while (cantidadEnTPilaPersona(pilaPersonas) > 0){
         apilarEnTPilaPersona(resultado, cimaDeTPilaPersona(pilaPersonas));
         desapilarDeTPilaPersona(pilaPersonas);
     }
@@ -388,7 +387,6 @@ TPersonasABB deserializarTPersonasABB(TPilaPersona &pilaPersonas) {
         else{
             desencolarDeTColaPersonasABB(aux);
         }
-
     }
     liberarTColaPersonasABB(aux);
     return nuevoArbol;
